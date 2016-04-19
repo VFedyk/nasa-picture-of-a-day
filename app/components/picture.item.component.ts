@@ -15,7 +15,11 @@ export class PictureItemCmp {
   getThumbnail() {
     let cover;
     if (this.picture['media_type'] === 'video') {
-      let videoId = this.picture.url.match(/https:\/\/www.youtube.com\/embed\/([A-Za-z0-9\-_]+)\?rel=0/)[1];
+      let matches = this.picture.url.match(/https:\/\/www.youtube.com\/embed\/([A-Za-z0-9\-_]+)\?rel=0/);
+      let videoId;
+      if (matches) {
+        videoId = matches[1];
+      }
       cover = `http://img.youtube.com/vi/${videoId}/0.jpg`;
     } else {
       cover = this.picture.url;

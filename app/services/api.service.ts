@@ -31,8 +31,7 @@ export class ApiService {
     return pictureLoaded;
   }
 
-  loadPictures(count) {
-    let startDate = Math.floor((new Date()).getTime() / 1000 / 60 /60 /24);
+  loadPictures(count, startDate) {
     this._picturesLoaded = [];
     for (let i = 0; i < count; i++) {
       let dayNumber = startDate - i;
