@@ -39,7 +39,7 @@ export class PictureListCmp implements OnInit{
 
   onscroll(event) {
     var distanceFromBottom = document.documentElement.offsetHeight - (window.pageYOffset + window.innerHeight);
-    var allowedDistanceFromBottom = 100;
+    var allowedDistanceFromBottom = 350;
     if (distanceFromBottom <= allowedDistanceFromBottom) {
       this.lastRequestedDay = this.lastPictureDay - 1;
       this._api.loadPictures(10, this.lastPictureDay - 1);
