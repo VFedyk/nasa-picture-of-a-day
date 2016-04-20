@@ -18,10 +18,10 @@ export class ApiService {
     return new Promise(resolve => {
       let cover;
       if (picture['media_type'] === 'video') {
-        let matchesYoutubeURL = picture.url.match(/https:\/\/www.youtube.com\/embed\/([A-Za-z0-9\-_]+)\?rel=0/);
+        let matchesYoutubeURL = picture.url.match(/\/\/www.youtube.com\/embed\/([A-Za-z0-9\-_]+)\?rel=0/);
         // https://player.vimeo.com/video/128714112?color=ffffff&byline=0&portrait=0
         // http://player.vimeo.com/video/32095756?title=0&byline=0&portrait=0&autoplay=1
-        let matchesVimeoURL = picture.url.match(/https?:\/\/player\.vimeo\.com\/video\/([0-9]+)\?/);
+        let matchesVimeoURL = picture.url.match(/\/\/player\.vimeo\.com\/video\/([0-9]+)\?/);
         let videoId;
         if (matchesYoutubeURL) {
           videoId = matchesYoutubeURL[1];
