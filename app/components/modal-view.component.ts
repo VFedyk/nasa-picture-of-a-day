@@ -24,9 +24,7 @@ export class ModalViewComponent implements OnInit{
 
   ngOnInit():any {
     this._bus.pictureShow.subscribe(picture => {
-      if (picture.media_type === 'video') {
-        picture.url += "&autoplay=1";
-      } else {
+      if (picture.media_type === 'picture') {
         let img = new Image();
         img.src = picture.hdurl;
         img.addEventListener('load', () => {

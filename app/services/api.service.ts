@@ -14,6 +14,42 @@ export class ApiService {
     private _cache: CacheService
   ) {}
 
+  prepareThumbnail(picture) {
+    return new Promise(resolve => {
+      let cover;
+      if (picture['media_type'] === 'video') {
+        let matchesYoutubeURL = picture.url.match(/https:\/\/www.youtube.com\/embed\/([A-Za-z0-9\-_]+)\?rel=0/);
+        // https://player.vimeo.com/video/128714112?color=ffffff&byline=0&portrait=0
+        // http://player.vimeo.com/video/32095756?title=0&byline=0&portrait=0&autoplay=1
+        let matchesVimeoURL = picture.url.match(/https?:\/\/player\.vimeo\.com\/video\/([0-9]+)\?/);
+        let videoId;
+        if (matchesYoutubeURL) {
+          videoId = matchesYoutubeURL[1];
+          cover = `http://img.youtube.com/vi/${videoId}/0.jpg`;
+          picture.url += '&autoplay=1';
+        }
+
+        if (matchesVimeoURL) {
+          console.log('Vimeo video:', picture.date);
+          videoId = matchesVimeoURL[1];
+          picture.url += '&autoplay=1';
+          this._http.get(`http://vimeo.com/api/v2/video/${videoId}.json`).subscribe(response => {
+            let videoInfo = response.json()[0];
+            picture.thumbnail = videoInfo['thumbnail_large'];
+            resolve(picture);
+          });
+          return;
+        }
+      } else {
+        cover = picture.url;
+      }
+
+      picture.thumbnail = cover;
+
+      resolve(picture);
+    });
+  }
+
   loadPicture(dayNumber) {
     let date = new Date();
     date.setTime(dayNumber * 24 * 60 * 60 * 1000);
@@ -24,8 +60,19 @@ export class ApiService {
 
     } else {
       this._http.get(`${this.url}&date=${day}`).subscribe(response => {
-        this._cache.savePictureInfo(dayNumber, response.json());
-        pictureLoaded.emit(this._cache.getPicture(dayNumber));
+        let picture = response.json();
+        this.prepareThumbnail(picture).then(ret => {
+          this._cache.savePictureInfo(dayNumber, ret);
+          pictureLoaded.emit(ret);
+        });
+      }, error => {
+        console.log(error);
+        let fakeObject = {
+          media_type: 'error',
+          title: 'Cannot obtain picture',
+          url: error.url
+        };
+        pictureLoaded.emit(fakeObject);
       })
     }
     return pictureLoaded;
@@ -35,10 +82,15 @@ export class ApiService {
     this._picturesLoaded = [];
     for (let i = 0; i < count; i++) {
       let dayNumber = startDate - i;
+      let errors = 0;
       this.loadPicture(dayNumber).subscribe(picture => {
         picture.day = dayNumber;
-        this._picturesLoaded.push(picture);
-        if (this._picturesLoaded.length == count) {
+        if (picture.media_type == 'error') {
+          errors++;
+        } else {
+          this._picturesLoaded.push(picture);
+        }
+        if ((this._picturesLoaded.length + errors) == count) {
           this._picturesLoaded.sort((a, b) => b.day - a.day);
           this._loadDone.emit(this._picturesLoaded);
         }
