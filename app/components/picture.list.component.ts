@@ -1,4 +1,4 @@
-import {Component, OnInit} from "angular2/core";
+import {Component, OnInit} from "@angular/core";
 import {PictureItemCmp} from "./picture.item.component";
 import {ApiService} from "../services/api.service";
 import {PictureBusService} from "../services/picture-bus.service";
@@ -7,7 +7,7 @@ import "rxjs/add/operator/debounceTime";
 
 @Component({
   selector: 'picture-list',
-  template: `<picture-item *ngFor="#picture of pictures" [picture]="picture" (click)="showModal(picture)"></picture-item>`,
+  template: `<picture-item *ngFor="let picture of pictures" [picture]="picture" (click)="showModal(picture)"></picture-item>`,
   directives: [PictureItemCmp],
   host: {"(window:scroll)": "scroll$.next($event)"}
 })

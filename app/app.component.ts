@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 import {PictureListCmp} from "./components/picture.list.component";
 import {ModalViewComponent} from "./components/modal-view.component";
 

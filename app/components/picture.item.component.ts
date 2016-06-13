@@ -1,8 +1,9 @@
-import {Component, Input} from "angular2/core";
+import {Component, Input, OnInit} from "@angular/core";
 @Component({
   selector: 'picture-item',
   styleUrls: ['./app/components/picture.item.component.css'],
-  template: `<div class="picture-item" style="background-image: url('{{picture.thumbnail}}'); ">
+  template: `
+    <div class="picture-item" [ngStyle]="background()">
       <div *ngIf="picture.media_type == 'video'" class="video"></div>
       <div class="description">
         <p class="title">{{picture.title}}</p>
@@ -11,8 +12,14 @@ import {Component, Input} from "angular2/core";
     </div>
 `
 })
-export class PictureItemCmp {
+export class PictureItemCmp{
   @Input('picture') public picture;
+
+  background() {
+    return {
+      'background-image': `url(${this.picture.thumbnail})`
+    }
+  }
 }
 
 
