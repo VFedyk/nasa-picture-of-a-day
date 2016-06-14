@@ -48,6 +48,17 @@ body {
     cursor: pointer;
 }
 
+picture-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+picture-item {
+    flex: 1 0;
+}
+
 picture-item {
     cursor: pointer;
 }
