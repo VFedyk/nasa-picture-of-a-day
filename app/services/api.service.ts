@@ -1,18 +1,20 @@
 import { Injectable, EventEmitter } from "@angular/core";
 import { Http } from "@angular/http";
-import { CacheService } from "./cache.service";
-import { config } from "../config";
+import { DataService } from "./data.service";
 
 @Injectable()
 export class ApiService {
-  private url = `https://api.nasa.gov/planetary/apod?api_key=${config.apiKey}`;
   private _loadDone = new EventEmitter();
   private _picturesLoaded;
 
   constructor(
     private _http: Http,
-    private _cache: CacheService
+    private _data: DataService
   ) {}
+
+  get url() {
+    return `https://api.nasa.gov/planetary/apod?api_key=${this._data.getAPIKey()}`;
+  }
 
   prepareThumbnail(picture) {
     return new Promise(resolve => {
@@ -56,14 +58,14 @@ export class ApiService {
     date.setTime(dayNumber * 24 * 60 * 60 * 1000);
     let day = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
     let pictureLoaded = new EventEmitter();
-    if (this._cache.hasPicture(dayNumber)) {
-      setTimeout(() => {pictureLoaded.emit(this._cache.getPicture(dayNumber));}, 0);
+    if (this._data.hasPicture(dayNumber)) {
+      setTimeout(() => {pictureLoaded.emit(this._data.getPicture(dayNumber));}, 0);
 
     } else {
       this._http.get(`${this.url}&date=${day}`).subscribe(response => {
         let picture = response.json();
         this.prepareThumbnail(picture).then(ret => {
-          this._cache.savePictureInfo(dayNumber, ret);
+          this._data.savePictureInfo(dayNumber, ret);
           pictureLoaded.emit(ret);
         });
       }, error => {

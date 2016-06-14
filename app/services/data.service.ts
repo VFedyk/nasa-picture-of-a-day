@@ -1,7 +1,19 @@
 import {Injectable} from "@angular/core";
 @Injectable()
-export class CacheService {
+export class DataService {
   private _ls = window.localStorage;
+
+  hasAPIKey() {
+    return (this._ls.getItem('api_key')) ? true : false;
+  }
+
+  getAPIKey() {
+    return this._ls.getItem('api_key');
+  }
+
+  saveAPIKey(apiKey) {
+    this._ls.setItem('api_key', apiKey);
+  }
 
   hasPicture(day: string) {
     return (this._ls.getItem(`picture_${day}`)) ? true : false;

@@ -15,7 +15,6 @@ export class PictureListCmp implements OnInit{
   public pictures = [];
   public lastPictureDay;
   private lastRequestedDay = 0;
-  private isRequestInProcess;
   public scroll$ = new Subject();
 
   constructor(
@@ -34,10 +33,10 @@ export class PictureListCmp implements OnInit{
       pictures.forEach(picture => this.pictures.push(picture));
       this.lastPictureDay = pictures[pictures.length - 1].day;
     });
-    this.scroll$.debounceTime(100).subscribe(v => this.onscroll(v));
+    this.scroll$.debounceTime(100).subscribe(v => this.onScroll(v));
   }
 
-  onscroll(event) {
+  onScroll(event) {
     var distanceFromBottom = document.documentElement.offsetHeight - (window.pageYOffset + window.innerHeight);
     var allowedDistanceFromBottom = 350;
     if (distanceFromBottom <= allowedDistanceFromBottom) {
