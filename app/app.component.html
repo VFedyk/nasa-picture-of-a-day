@@ -1,0 +1,3 @@
+<h1>NASA's Picture of the day</h1>
+<picture-list *ngIf="isAPIKeyPresent()"></picture-list>
+<api-key-form *ngIf="!isAPIKeyPresent()"></api-key-form>

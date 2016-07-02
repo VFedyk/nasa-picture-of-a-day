@@ -1,0 +1,123 @@
+body {
+  font-family: sans-serif;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255,255,255, 0.95);
+  padding: 0 50px;
+}
+
+.modal h2 {
+  font-size: 36px;
+}
+
+.modal img, .modal iframe {
+  width: 65%;
+  height: 80%;
+}
+
+.modal img {
+  object-fit: cover;
+}
+
+.modal .preloader {
+  background-image: url(img/loading.gif);
+  background-repeat: no-repeat;
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  top: 50%;
+  left: 32.5%;
+  margin-top: -32px;
+}
+
+.close-button {
+  background-image: url('img/close-button.png');
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background-size: cover;
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+picture-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.picture-item {
+  /*flex: 1 0;*/
+  cursor: pointer;
+}
+
+.close-button:hover {
+  opacity: 0.8;
+}
+
+.side-desc {
+  width: 30%;
+  float: right;
+}
+
+.picture-item {
+  background-size: cover;
+  background-position: center top;
+  width: 250px;
+  height: 250px;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.picture-item .description {
+  position: absolute;
+  bottom: 0;
+  background: rgba(0,0,0,0.7);
+  color: #FFF;
+  padding: 10px;
+  margin: 0;
+  font-weight: bold;
+  width: 250px;
+  box-sizing: border-box;
+}
+
+.picture-item .description p {
+  padding: 0;
+  margin: 0;
+}
+
+.picture-item .description .title {
+  color: #FFF;
+  text-decoration: none;
+}
+
+.picture-item:hover .description .title {
+  text-decoration: underline;
+}
+
+.picture-item .description .date {
+  text-align: right;
+  font-style: italic;
+}
+
+.picture-item .video {
+  background-image: url('img/video.png');
+  background-size: cover;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 20px;
+  height: 20px;
+}
