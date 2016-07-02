@@ -1,6 +1,6 @@
-import { Injectable, EventEmitter } from "@angular/core";
-import { Http } from "@angular/http";
-import { DataService } from "./data.service";
+import { Injectable, EventEmitter } from '@angular/core';
+import { Http } from '@angular/http';
+import { DataService } from './data.service';
 
 @Injectable()
 export class ApiService {
@@ -56,10 +56,10 @@ export class ApiService {
   loadPicture(dayNumber) {
     let date = new Date();
     date.setTime(dayNumber * 24 * 60 * 60 * 1000);
-    let day = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
+    let day = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     let pictureLoaded = new EventEmitter();
     if (this._data.hasPicture(dayNumber)) {
-      setTimeout(() => {pictureLoaded.emit(this._data.getPicture(dayNumber));}, 0);
+      setTimeout(() => {pictureLoaded.emit(this._data.getPicture(dayNumber)); }, 0);
 
     } else {
       this._http.get(`${this.url}&date=${day}`).subscribe(response => {
@@ -76,7 +76,7 @@ export class ApiService {
           url: error.url
         };
         pictureLoaded.emit(fakeObject);
-      })
+      });
     }
     return pictureLoaded;
   }
@@ -88,12 +88,12 @@ export class ApiService {
       let errors = 0;
       this.loadPicture(dayNumber).subscribe(picture => {
         picture.day = dayNumber;
-        if (picture.media_type == 'error') {
+        if (picture.media_type === 'error') {
           errors++;
         } else {
           this._picturesLoaded.push(picture);
         }
-        if ((this._picturesLoaded.length + errors) == count) {
+        if ((this._picturesLoaded.length + errors) === count) {
           this._picturesLoaded.sort((a, b) => b.day - a.day);
           this._loadDone.emit(this._picturesLoaded);
         }
